@@ -56,3 +56,18 @@ user-provided comparison function does not correctly implement a total order
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 ```
 
+The bug is that the compare function is not a total order as demonstrated by the following test:
+
+```rust
+❯ cargo run
+   Compiling version-test v0.1.0 (/Users/obonilla/o/version-test)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.90s
+     Running `target/debug/version-test`
+
+thread 'main' panicked at src/main.rs:130:21:
+assertion `left == right` failed: Transitivity failed for a: 7.6.23-6+fc244ee, b: 7.6.23-3+3c3c027, c: 7.6.23-rc4.1+2868e74 (expected a > c, got Lt)
+  left: Lt
+ right: Gt
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+```
+
